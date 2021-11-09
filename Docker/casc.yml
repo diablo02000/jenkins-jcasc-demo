@@ -1,0 +1,12 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\nDEMO NEVER USE AS PROD !!!!!"
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: ${JENKINS_ADMIN_ID}
+         password: ${JENKINS_ADMIN_PASSWORD}
+  authorizationStrategy: loggedInUsersCanDoAnything
+unclassified:
+  location:
+    url: http://localhost:8080/
