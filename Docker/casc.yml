@@ -1,12 +1,33 @@
+unclassified:
+  location:
+    url: 'http://jenkins:8080'
 jenkins:
-  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\nDEMO NEVER USE AS PROD !!!!!"
   securityRealm:
     local:
       allowsSignup: false
       users:
-       - id: ${JENKINS_ADMIN_ID}
-         password: ${JENKINS_ADMIN_PASSWORD}
-  authorizationStrategy: loggedInUsersCanDoAnything
-unclassified:
-  location:
-    url: http://localhost:8080/
+       - id: "${JENKINS_ADMIN_ID}"
+         name: "${JENKINS_ADMIN_ID}"
+         password: "${JENKINS_ADMIN_PASSWORD}"
+       - id: "dev"
+         name: "dev"
+         password: "dev"
+  authorizationStrategy:
+    globalMatrix:
+      permissions:
+        - "Job/Build:dev"
+        - "Job/Cancel:dev"
+        - "Job/Read:dev"
+        - "Job/Workspace:dev"
+        - "Overall/Administer:${JENKINS_ADMIN_ID}"
+        - "Overall/Read:authenticated"
+        - "Run/Replay:dev"
+        - "Run/Update:dev"
+  remotingSecurity:
+    enabled: true
+  numExecutors: 1
+security:
+  queueItemAuthenticator:
+    authenticators:
+    - global:
+        strategy: 'triggeringUsersAuthorizationStrategy'
